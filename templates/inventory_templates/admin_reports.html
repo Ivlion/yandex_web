@@ -1,0 +1,48 @@
+{% extends "inventory_templates/base_inventory.html" %}
+
+{% block content %}
+<h3>Создание отчета</h3>
+<form method="post" class="mb-4">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.sender_name.label }}
+        {{ form.sender_name(class="form-select") }}
+    </div>
+    <div class="mb-3">
+        {{ form.report_content.label }}
+        {{ form.report_content(class="form-control", rows=5, placeholder="Введите текст отчета") }}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+<br>
+<h3>План</h3>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Пользователь</th>
+        <th>Отчет</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if data %}
+    {% for item in data %}
+    <tr>
+        <td>{{ item[1] + " " + item[2] }}</td>
+        <td>{{ item[3] }}</td>
+        <td>
+                <form method="POST" style="display: inline;">
+                    <input type="hidden" name="_method" value="{{ loop.index }}">
+                    <button type="submit" class="btn btn-warning">Удалить</button>
+                </form>
+        </td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+        <td colspan="4" class="text-center">Нет отчетов</td>
+    </tr>
+    {% endif %}
+    </tbody>
+</table>
+{% endblock %}
